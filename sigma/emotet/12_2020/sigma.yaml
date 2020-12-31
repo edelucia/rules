@@ -1,0 +1,22 @@
+title: Detects possible Geodo / Emotet implanter through CMDLINE - December 2020
+status: stable
+description: Detects possible Geodo / Emotet implanter through CMDLINE - December 2020
+author: Emanuele De Lucia
+references: 
+- internal research
+tags:
+- attack.t1047
+- attack.t1064
+date: 2020/12/25
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+      Image|endswith:
+      - '\cmd.exe'
+      CommandLine|contains|all: 
+      - 'cmd cmd cmd cmd /c msg %username% /v Word experienced an error trying to open the file.'
+      - '-w hidden -ENCOD'
+  condition: selection
+level: high
