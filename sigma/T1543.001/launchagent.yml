@@ -1,0 +1,30 @@
+title: Property list file creation under LaunchAgent or LaunchDaemon folders 
+status: experimental
+description: Property list file creation under LaunchAgent or LaunchDaemon folders
+author: Emanuele De Lucia
+references:
+  - internal research
+date: 2022/01/25
+logsource:
+  category: file_event
+  product: macos
+detection:
+  s1:
+    TargetFilename|contains|all: 
+    - 'Library'
+    - 'LaunchAgents'
+  s2:
+    TargetFilename|contains|all:
+    - 'Library'
+    - 'LaunchDaemons'
+  s3:  
+    TargetFilename|endswith: 
+    - '.plist'
+  condition: (s1 or s2) and s3
+falsepositives:
+  - legitimate administration activities
+level: medium
+tags:
+  - attack.persistence
+  - attack.t1543.001
+  - attack.t1543.004
