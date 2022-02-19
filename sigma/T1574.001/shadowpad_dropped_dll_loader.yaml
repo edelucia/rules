@@ -1,0 +1,36 @@
+title: ShadowPad implant via dropped dll loader (file_event)
+description: ShadowPad implant via dropped dll loader (file_event)
+author: Emanuele De Lucia
+date: 2022/02/18
+status: stable
+references:
+    - https://www.secureworks.com/research/shadowpad-malware-analysis
+tags:
+    - attack.defense_evasion
+    - attack.privilege_escalation
+    - attack.persistence
+    - attack.t1574.001
+logsource:
+    category: file_event
+    product: windows
+detection:
+    s1:
+        TargetFilename|contains|all: 
+        - 'Users'
+        - 'Roaming'
+    s2:
+        TargetFilename|contains:
+        - 'ProgramData'
+        - 'Program Files'
+    s3: 
+        TargetFilename|endswith: 
+        - 'mscoree.dll'
+        - 'hpqhvsei.dll'
+        - 'secur32.dll'
+        - 'tosbtkbd.dll'
+        - 'log.dll'
+        - 'iviewers.dll'
+    condition: (s1 or s2) and s3
+falsepositives:
+    - legitimate software that creates DLL files with same names under the same paths
+level: high
