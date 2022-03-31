@@ -1,0 +1,24 @@
+title: Potential Spring4Shell exploitation by .jsp file_create
+status: stable
+description: Detects the creation of .jsp webshell under the default webserver root according to PoC in references.
+references:
+    - https://github.com/lunasec-io/Spring4Shell-POC/blob/master/exploit.py
+    - https://www.lunasec.io/docs/blog/spring-rce-vulnerabilities/
+author: Emanuele De Lucia
+date: 2022/03/31
+tags:
+    - attack.initial_access
+    - attack.execution
+logsource:
+    product: linux
+    category: file_create
+detection:
+    s1:
+        - TargetFileName|contains: 'webapps/ROOT'
+    s2:    
+        - TargetFilename|endswith: 'tomcatwar.jsp'
+        - TargetFilename|endswith: 'shell.jsp'
+    condition: s1 and s2
+falsepositives:
+    - unlikely 
+level: high
