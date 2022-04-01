@@ -18,6 +18,9 @@ detection:
     s2:    
         - TargetFilename|endswith: 'tomcatwar.jsp'
         - TargetFilename|endswith: 'shell.jsp'
+        - TargetFilename|endswith: '0xd0m7.jsp'
+        - TargetFilename|endswith: 'wpz.jsp'
+        - TargetFilename|endswith: 'myshell.jsp'
     condition: s1 and s2
 falsepositives:
     - unlikely 
