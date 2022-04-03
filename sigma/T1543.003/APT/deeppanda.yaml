@@ -1,0 +1,29 @@
+title: Installation of potentially malicious services as per the names used by DeepPanda / APT19
+description: Installation of potentially malicious services as per the names used by DeepPanda / APT19
+author: Emanuele De Lucia
+date: 2022/03/31
+reference:
+- https://www.fortinet.com/blog/threat-research/deep-panda-log4shell-fire-chili-rootkits
+tags:
+- attack.persistence
+status: stable
+logsource:
+  product: windows
+  service: security
+detection:
+  condition: selection
+  selection:
+    EventID:
+    - '4697'
+    ServiceName:
+    - 'msupdate2'
+    - 'WebService'
+    - 'alg'
+    - 'msupdate'
+    - 'msupdateday'
+    - 'DigaTrack'
+fields:
+- ServiceName
+falsepositives:
+- Legit services that present the same names
+level: medium
