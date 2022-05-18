@@ -1,0 +1,23 @@
+title: Possible UAC bypass via registry (registry_set)
+status: stable
+description: Possible UAC bypass via registry (registry_set)
+author: Emanuele De Lucia
+date: 2022/05/03
+references:
+- internal research
+tags:
+- attack.defense_evasion
+logsource:
+  product: windows
+  category: registry_set
+detection:
+  selection:
+    EventType: SetValue
+    TargetObject:
+    - 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\EnableLUA'
+    - 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\ConsentPromptBehaviorAdmin'
+    Details: 'DWORD (0x00000000)'
+  condition: selection
+falsepositives:
+- Administrative tasks that require UAC disabling
+level: high
