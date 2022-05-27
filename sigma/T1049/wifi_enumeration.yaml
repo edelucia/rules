@@ -1,0 +1,26 @@
+title: Possible network information discovery by WiFi enumeration (via cmdline)
+status: stable
+description: Possible WiFi network enumeration (via cmdline)
+id: 4585d459-d403-4b56-94bd-3086383c1a9b
+references: 
+    - internal research
+tags:
+    - attack.discovery
+    - attack.t1049
+author: Emanuele De Lucia
+date: 2021/05/20
+logsource:
+  category: process_creation
+  product: windows
+detection:
+    selection:
+        Image|endswith:
+            - 'netsh.exe'
+        CommandLine|contains|all:
+            - 'wlan'
+            - 'show networks' 
+            - 'mode=bssid'
+    condition: selection
+falsepositives:
+    - legitimate administrative tasks
+level: medium
