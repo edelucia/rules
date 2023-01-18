@@ -1,0 +1,22 @@
+title: PDQRunner Service Installation
+description: Detects the installation of PDQRunner via (eventid)
+reference:
+ - https://www.virustotal.com/gui/file/bb28dd64a8ebd8dc3d949f75ba48847db6326d45fe358ff094e2cf0930538426/detection
+author: Emanuele De Lucia
+status: experimental
+tags:
+- attack.persistence
+- attack.privilege_execution
+- attack.t1543.003
+logsource:
+  product: windows
+  service: system
+detection:
+  c1:
+    EventID:
+      - 7045
+    ImagePath|contains: 'PDQRunner'
+  condition: c1
+falsepositives:
+- Administrative and / or legitimate installation of PDQRunner
+level: medium
