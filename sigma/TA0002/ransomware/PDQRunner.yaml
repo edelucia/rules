@@ -1,0 +1,33 @@
+title: PDQRunner
+status: experimental
+description: Detects the use of PDQRunner via (process_creation)
+author: Emanuele De Lucia
+date: 2021/12/21
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    c1:
+      Image|contains: 
+      - 'PDQRunner'
+      - 'PDQDeployRunner'
+      - 'PDQInventory'
+    c2:  
+      OriginalFileName|contains: 
+      - 'PDQRunner'
+    c3:
+      Description|contains: 
+      - 'Remote process runner'
+    c4:
+      Image|endswith:
+      - '\sc.exe'
+      CommandLine|contains:
+      - 'binpath'
+      - 'create'
+      - 'PDQRunner'
+    condition: 1 of c*
+falsepositives:
+    - Administrative and / or legitimate use of PDQRunner
+tags:
+    - attack.execution
+level: medium
