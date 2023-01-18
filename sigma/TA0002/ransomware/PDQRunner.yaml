@@ -21,7 +21,7 @@ detection:
     c4:
       Image|endswith:
       - '\sc.exe'
-      CommandLine|contains:
+      CommandLine|contains|all:
       - 'binpath'
       - 'create'
       - 'PDQRunner'
