@@ -1,0 +1,29 @@
+title: Cozy Bear - Invitation - campaign DLL Side-Loading 
+status: experimental
+description: Detects DLL Side-Loading potentially related to Cozy Bear - Invitation - campaign
+date: 2023/07/23
+tags:
+    - attack.defense_evasion
+    - attack.persistence
+    - attack.privilege_escalation
+logsource:
+    category: image_load
+    product: windows
+detection:
+    path:
+        Image|startswith:
+            - 'C:\windows\tasks\'
+        Image|endswith: 
+            - '\msoev.exe'
+    dll:
+        ImageLoaded|endswith:
+            - '\AppVIsvSubsystems64.dll'
+            - '\mso.dll'
+        ImageLoaded|startswith:
+            - 'C:\windows\tasks\'
+        Signed:
+            - 'false'        
+    condition: (path and dll)
+falsepositives:
+    - unknown
+level: high
