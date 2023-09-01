@@ -11,6 +11,6 @@ alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"ET ANDROID MALWARE - Potenti
     content:"User-Agent|3A| curl/7.47"; \
     http_header; \
     reference:url,https://www.cisa.gov/news-events/analysis-reports/ar23-243a; \
-	  reference:url,https://www.ncsc.gov.uk/static-assets/documents/malware-analysis-reports/infamous-chisel/NCSC-MAR-Infamous-Chisel.pdf; \
-    sid:xxxxxxx; \
+    reference:url,https://www.ncsc.gov.uk/static-assets/documents/malware-analysis-reports/infamous-chisel/NCSC-MAR-Infamous-Chisel.pdf; \
+    sid:xxxxxxx; \  
     rev:1;)
