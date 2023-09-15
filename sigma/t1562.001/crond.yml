@@ -1,7 +1,7 @@
 title: Crond Backdoor - Suspicious file creation under /tmp/ folder (via file_event)
 id: aae26b76-1477-1237-811f-1a035b2bfa5e
 status: stable
-description: Detects the creation of /tmp/tmpA81e4gVs file used by the crod backdoor implementation of getaddrinfo function
+description: Detects the creation of /tmp/tmpA81e4gVs file used by the crond backdoor implementation of getaddrinfo function
 references:
     - https://securelist.com/backdoored-free-download-manager-linux-malware/110465/
 author: Emanuele De Lucia
