@@ -1,0 +1,1 @@
+alert http $HOME_NET any -> any $EXTERNAL_NET (msg:"ET Potential QBot C2 beaconing"; flow:established,to_server; content:"POST"; http.method; content:"/teorema505"; http.uri; tls.protocols; sid:xxxxxxx; rev:1;)
