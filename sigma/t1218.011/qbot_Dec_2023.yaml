@@ -1,0 +1,30 @@
+title: Detect suspicious rundll32 execution from installer directory via (process_creation)
+id: be4590e4-9cc7-11ee-8c90-0242ac120002
+status: experimental
+references: 
+- internal research
+description: Detects suspicious rundll32 execution from the Installer directory.
+author: Emanuele De Lucia
+date: 2023/12/16
+tags:
+- attack.t1218.011
+- attack.defense_evasion
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    Image|contains: 
+    - 'Installer'
+    Image|endswith:
+    - '.tmp'
+    CommandLine|contains|all: 
+    - 'HideWindow' 
+    - 'rundll32'
+    - 'AppData'
+    - 'Roaming'
+    - '.dll'
+  condition: selection
+falsepositives:
+  - legitimate software installations and/or configurations
+level: medium
