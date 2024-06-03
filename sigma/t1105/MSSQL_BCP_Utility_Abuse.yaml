@@ -1,0 +1,60 @@
+title: MS-SQL BCP Utility Potential Abuse
+status: experimental
+description: Detects the potential abuse of MS-SQL BCP Utility to create files locally
+references:
+    - https://asec.ahnlab.com/en/61000/
+author: Emanuele De Lucia
+date: 2024/02/04
+tags:
+    - attack.execution
+    - attack.t1059.003
+    - attack.t1105
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    cmdline:
+        Image|endswith: 
+            - '\bcp.exe'
+        Commandline|contains|all:
+            - 'queryout'
+            - 'select'
+            - 'from'
+    ext:
+        Commandline|contains:
+            - '.exe'
+            - '.dll'
+            - '.drv'
+            - '.ps1'
+            - '.jse'
+            - '.scr'
+            - '.js'
+            - '.vhd'
+            - '.msi'
+            - '.wsf'
+            - '.sys'
+            - '.com'
+            - '.img'
+            - '.vbs'
+            - '.bat'
+            - '.cmd'
+    path:
+        Commandline|contains:
+            - 'AppData'
+            - 'Documents'
+            - 'Downloads'
+            - 'System32'
+            - 'Music'
+            - 'Pictures'
+            - 'Videos'
+            - 'Temp'
+            - 'SysWOW64'
+            - 'Tasks'
+            - 'Debug'
+            - 'ProgramData'
+            - 'Program Files'
+            - 'Program Files (x86)'
+    condition: cmdline and ext and path
+falsepositives:
+    - Legitimate administrative tasks
+level: high
