@@ -1,0 +1,37 @@
+title: Magnet RAM Capture Execution or Driver Load Detected
+id: 1f2a3c1e-7b9f-4d5a-8a21-1e9b0a3f7d4e
+status: stable
+description: Detects the execution of Magnet RAM Capture
+author: Emanuele De Lucia
+date: 2025/05/10
+modified: 2025/05/10
+references:
+    - https://www.magnetforensics.com/resources/magnet-ram-capture/
+tags:
+    - attack.credential_access
+    - attack.collection
+    - attack.t1003.001
+    - attack.t1005
+logsource:
+    product: windows
+    category:
+        - process_creation
+        - driver_load
+detection:
+    selection_1:
+        Image|endswith:
+            - '\RAMCapture.exe'
+            - '\RamCapture64.exe'
+        OriginalFileName|endswith:
+            - 'RAMCapture.exe'
+            - 'RamCapture64.exe'
+    selection_2:
+        ImageLoaded|endswith:
+            - '\RamCaptureDriver.sys'
+            - '\RamCaptureDriver64.sys'
+    condition: selection_1 or selection_2
+falsepositives:
+    - Legitimate use by forensic investigators or incident response teams during an authorized investigation.
+    - System administrators using the tool for approved diagnostic or memory acquisition purposes.
+level: high
+
