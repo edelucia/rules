@@ -1,0 +1,49 @@
+title: Cisco Guest Shell Abuse for Persistence and Execution
+id: 0d34b12a-6c8f-4a04-9a3b-3d61f1c7e9fa
+status: experimental
+description: |
+  Detects commands related to the activation, access, and malicious use of the Guest Shell feature on Cisco IOS XE and NX-OS devices.
+  This rule identifies not only the initial enabling and access commands but also subsequent suspicious activities within the shell, such as downloading external tools, modifying permissions, or establishing C2 channels.
+  Threat actors leverage the Guest Shell as a containerized Linux environment to run arbitrary commands and pivot within a network, often evading traditional monitoring focused on the network OS itself.
+references:
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-239a
+author: Emanuele De Lucia
+date: 2025-09-04
+modified: 2025-09-04
+tags:
+  - attack.execution
+  - attack.persistence
+  - attack.command_and_control
+  - attack.t1609
+  - attack.t1543.005
+  - attack.t1059.008
+  - attack.t1105
+logsource:
+  product: cisco
+  category: network_device_command # Generica per esecuzione comandi (e.s., via TACACS+, Syslog etc.)
+detection:
+  selection_access:
+    CommandLine|contains:
+      - 'guestshell enable'   
+      - 'guestshell run bash'   #IOS XE
+      - 'run guestshell'        #NX-OS
+  selection_host_interaction:
+    CommandLine|contains:
+      - 'dohost'    # NX-OS: Invoca comandi CLI
+      - 'chvrf'
+  selection_payload_execution:
+    CommandLine|contains:
+      - 'wget http'
+      - 'curl -O http'
+      - 'curl -o '
+      - 'chmod +x'
+      - 'chmod 7' # e.s. chmod 777, 755 ...
+      - 'nc -e /bin/bash'
+      - 'ncat -e /bin/bash'
+      - 'bash -i >& /dev/tcp/'
+      - 'socat exec'
+  condition: 1 of them
+falsepositives:
+  - Legitimate network administrators may use the Guest Shell for advanced scripting, automation or management tasks.
+  - Legitimate activation or execution involving tool downloads (`wget`, `curl`) or permission changes (`chmod`). These should be **always** cross-verified with change management and administrator activity logs.
+level: high
